@@ -1,0 +1,105 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <string>
+
+using namespace std;
+void check(int& HP, int& M) // kiem tra yeu cau bai toan
+{
+    if (HP > 1000) HP = 1000; 
+    if (HP < 0) HP = 0;
+    if (M > 1000) M = 1000; 
+    if (M < 0) M = 0;
+}
+void buy(int& x, int& HP, int& M) // kiem tra mua mu giap
+{
+    switch (x)
+    {
+    case 1:
+        HP += 5;
+        M -= 190;
+        break;
+    case 2:
+        HP += 7;
+        M -= 195;
+        break;
+    case 3:
+        HP += 9;
+        M -= 200;
+        break;
+    case 4:
+        HP += 11;
+        M -= 205;
+        break;
+    }
+}
+bool nguyento(int n) // kiem tra so nguyen to
+{
+    if (n < 2) return false;
+    for (int i = 2; i <= sqrt(n); i++)
+        if (n % i == 0) return false;
+    return true;
+}
+int getReady(int& HP, const int& ID, int& M, const int& E1) {
+    //Complete this function to gain point on task 1
+    check(HP, M);
+    if (E1 >= 100 && E1 <= 199) {         // TH1
+        if (ID == 1) HP += 75;
+        else if (ID != 2) {
+            int h = (E1 - 100) % 64;
+            int J = HP % 100;
+            if (J > h) {
+                if (HP >= 500 && M % 2 != 0 && M >= 300) { HP += 50; M -= 300; }
+                else if (M % 2 == 0 && M >= 200) { HP += 25; M -= 200; }
+            }
+        }
+        check(HP, M);
+        return HP + M;
+    }
+    else if (E1 >= 200 && E1 <= 299) {    // TH2 ( Chưa chỉnh sửa vụ tiền nong, coi lại trên forum hỏi đáp và câu hỏi của Nguyễn Hoàng Tùng)
+        int  x = E1 % 4 + 1;
+        if (ID == 1 || ID == 2) buy(x, HP, M);
+        else if ((M % 2 != 0 && x % 2 != 0) || (M % 2 != 0 && x % 2 != 0)) {
+            buy(x, HP, M);
+        }
+        check(HP, M);
+        return HP + M;
+    }
+    else if (E1 >= 300 && E1 <= 399) {    // TH3
+        if (HP >= 600) {
+            int a = 1;
+            int e = E1 % 10;
+            if (nguyento(e)) a = 2 * e;
+            int i = HP % 10;
+            if (nguyento(i) && M >= 500) {
+                HP *= (1 + 2 * a * 0.01);
+                M -= 500;
+            }
+            else if (!nguyento(i) && M >= 300) {         // No bi khac truong hop(luu y nhieu)
+                HP *= (1 + a * 0.01);
+                M -= 300;
+            }
+        }
+
+        check(HP, M);
+        return HP + M;
+    }
+    else if (E1 >= 400 && E1 <= 499) {
+        if (E1 % 5 == 0) HP = round(HP * 0.9);
+        check(HP, M);
+        return HP + M;
+    }
+    else if (E1 == 500) {
+        HP = round(HP * 0.75);
+        M = round(M * 0.75);
+        return HP + M;
+    }
+    else return -999;
+    return -1;
+}
+
+int main()
+{
+    int HP1 = 417, ID1 = 0, M1 = 210, E1 = 501;
+    cout << getReady(HP1, ID1, M1, E1) << endl;
+}
