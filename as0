@@ -118,7 +118,7 @@ int getReady(int& HP, const int& ID, int& M, const int& E1) {
     else return -999;
     return -1;
 }
-int firstBattle(int& HP1, int& HP2, const int& ID1, const int& ID2, const int& E2) { // Tran 1
+int firstBattle(int& HP1, int& HP2, const int& ID1, const int& ID2, const int& E2) { 
     //Complete this function to gain point on task 2
     int dem = 0;
     if (E2 >= 100 && E2 <= 199) {
@@ -141,10 +141,41 @@ int firstBattle(int& HP1, int& HP2, const int& ID1, const int& ID2, const int& E
         dem++;
     }
     else return -999;
-    if (dem == 1) {
+    if (dem != 0) {
         int res = fight(HP1, HP2, ID1, ID2);
         HP1 = round(HP1 * 0.8);
         return res;
+    }
+    return -1;
+}
+int secondBattle(int& HP1, int& HP2, const int& ID1, const int& ID2, const int& E3) {
+    //Complete this function to gain point on task 3
+    HP1 = round(HP1 * 1.4);
+    HP2 = round(HP2 * 1.6);
+    if (ID1 == 1) HP1 *= 2;
+    if (E3 >= 100 && E3 <= 199) { // truong hop gia su co vua hoac tong chi huy maf ben con lai khong cothi hp bi tra ve 0 co duoc giu nguyen khong
+        int so = HP1;
+        if (ID2 != 2) HP2 = round(HP2 * 0.95);
+        int res = fight(HP1, HP2, ID1, ID2);
+        if (res == -1) HP1 = so;
+        return res;
+    }
+    if (E3 >= 200 && E3 <= 299) { 
+        if (ID2 != 2) HP2 = round(HP2 * 0.95);
+        return 0;
+    }
+    return -1;
+}
+int finalBattle(int& HP1, int& HP2, const int& ID1, const int& ID2, const int& E4) {
+    //Complete this function to gain point on task 4
+    if (E4 >= 100 && E4 <= 199) {
+        if (ID2 == 2) HP2 = round(HP2 * 0.3);
+        else HP2 = round(HP2 * 0.1);
+        return 0;
+    }
+    if (E4 >= 200 && E4 <= 299) {
+        HP2 = 0;
+        return 1;
     }
     return -1;
 }
@@ -153,8 +184,8 @@ int main()
 {
     //int HP1 = 417, ID1 = 0, M1 = 210, E1 = 500;
     //cout << getReady(HP1, ID1, M1, E1) << endl;
-    int HP1 = 100, HP2 = 200, ID1 = 0, ID2 = 0, E2 = 120;
-    cout << firstBattle(HP1, HP2, ID1, ID2, E2);
+    int HP1 = 100, HP2 = 200, ID1 = 0, ID2 = 0, E3 = 220;
+    cout << secondBattle( HP1,  HP2,  ID1,  ID2,  E3);
         cout << HP1 << " " << HP2;
         return 0;
 }
