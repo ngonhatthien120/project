@@ -173,7 +173,7 @@ int firstBattle(int& HP1, int& HP2, const int& ID1, const int& ID2, const int& E
         dem = true;
     }
     else if (E2 >= 300 && E2 <= 399) { // TH3
-        if (HP1 < 350) HP1 += 30;
+        if (E2 < 350) HP1 += 30;
         else HP1 += E2 % 100;
         check(HP1, HP2);
         dem = true;
@@ -181,6 +181,7 @@ int firstBattle(int& HP1, int& HP2, const int& ID1, const int& ID2, const int& E
     else if (E2 >= 400 && E2 <= 499) { //TH4
         HP1 = ceil(HP1 * 1.3f);
         HP2 = ceil(HP2 * 0.8f);
+        check(HP1, HP2);
         HP1 = ceil(HP1 * 0.5f);
         check(HP1, HP2);
         dem = true;
